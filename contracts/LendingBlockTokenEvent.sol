@@ -15,7 +15,7 @@ import 'zeppelin-solidity/contracts/token/StandardToken.sol';
  * transferable time can be set
  */
 contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
-	string public constant name = "LendingBlock";
+	string public constant name = "Lendingblock";
 	string public constant symbol = "LND";
 	uint8 public constant decimals = 18;
 	uint256 public transferableTime = 1546300800;// 1/1/2019
