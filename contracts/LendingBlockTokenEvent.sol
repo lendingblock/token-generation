@@ -49,7 +49,7 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	/**
    * @dev transferableTime restrictions on the parent function
    * @param _to address that will receive tokens
-   * @param _amount amount of tokens to transfer
+   * @param _value amount of tokens to transfer
    * @return boolean that indicates if the operation was successful
    */
 	function transfer(address _to, uint256 _value)
@@ -64,7 +64,7 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
    * @dev transferableTime restrictions on the parent function
    * @param _from address that is approving the tokens
    * @param _to address that will receive approval for the tokens
-   * @param _amount amount of tokens to approve
+   * @param _value amount of tokens to approve
 	 * @return boolean that indicates if the operation was successful
    */
 	function transferFrom(address _from, address _to, uint256 _value)
@@ -240,11 +240,11 @@ contract LendingBlockTokenEvent is Ownable {
 	/**
    * @dev set the parameters for the contribution round
 	 * associated with variables, functions, events of suffix Main
-	 * @param _startTimePre start time of contribution round
-   * @param _endTimePre end time of contribution round
-	 * @param _minCapPre minimum contribution for this round
-   * @param _maxCapPre maximum contribution for this round
-   * @param _ratePre token exchange rate for this round
+	 * @param _startTimeMain start time of contribution round
+   * @param _endTimeMain end time of contribution round
+	 * @param _minCapMain minimum contribution for this round
+   * @param _maxCapMain maximum contribution for this round
+   * @param _rateMain token exchange rate for this round
    */
 	function setMain(
 		uint256 _startTimeMain,
