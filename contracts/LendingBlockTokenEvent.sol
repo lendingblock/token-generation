@@ -7,13 +7,13 @@ import 'zeppelin-solidity/contracts/token/BurnableToken.sol';
 import 'zeppelin-solidity/contracts/token/StandardToken.sol';
 
 /**
- * @title LendingBlockToken
- * @dev LND or LendingBlock Token
- * Max supply of 1 billion
- * 18 decimals
- * not transferable before end of token generation event
- * transferable time can be set
- */
+* @title LendingBlockToken
+* @dev LND or LendingBlock Token
+* Max supply of 1 billion
+* 18 decimals
+* not transferable before end of token generation event
+* transferable time can be set
+*/
 contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	string public constant name = "Lendingblock";
 	string public constant symbol = "LND";
@@ -22,9 +22,9 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	address public tokenEventAddress;
 
 	/**
-   * @dev before transferableTime, only the token event contract and owner
-	 * can transfer tokens
-   */
+	* @dev before transferableTime, only the token event contract and owner
+	* can transfer tokens
+	*/
 	modifier afterTransferableTime() {
 		if (now <= transferableTime) {
 			require(msg.sender == tokenEventAddress || msg.sender == owner);
@@ -33,11 +33,11 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	}
 
 	/**
-   * @dev constructor to initiate values
-	 * msg.sender is the token event contract
-	 * supply is 1 billion
-   * @param _owner address that has can transfer tokens and access to change transferableTime
-   */
+	* @dev constructor to initiate values
+	* msg.sender is the token event contract
+	* supply is 1 billion
+	* @param _owner address that has can transfer tokens and access to change transferableTime
+	*/
 	function LendingBlockToken(address _owner) public {
 		tokenEventAddress = msg.sender;
 		owner = _owner;
@@ -47,11 +47,11 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	}
 
 	/**
-   * @dev transferableTime restrictions on the parent function
-   * @param _to address that will receive tokens
-   * @param _value amount of tokens to transfer
-   * @return boolean that indicates if the operation was successful
-   */
+	* @dev transferableTime restrictions on the parent function
+	* @param _to address that will receive tokens
+	* @param _value amount of tokens to transfer
+	* @return boolean that indicates if the operation was successful
+	*/
 	function transfer(address _to, uint256 _value)
 		public
 		afterTransferableTime
@@ -61,12 +61,12 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	}
 
 	/**
-   * @dev transferableTime restrictions on the parent function
-   * @param _from address that is approving the tokens
-   * @param _to address that will receive approval for the tokens
-   * @param _value amount of tokens to approve
-	 * @return boolean that indicates if the operation was successful
-   */
+	* @dev transferableTime restrictions on the parent function
+	* @param _from address that is approving the tokens
+	* @param _to address that will receive approval for the tokens
+	* @param _value amount of tokens to approve
+	* @return boolean that indicates if the operation was successful
+	*/
 	function transferFrom(address _from, address _to, uint256 _value)
 		public
 		afterTransferableTime
@@ -76,11 +76,11 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 	}
 
 	/**
-   * @dev set transferableTime
-	 * transferableTime can only be set earlier, not later
-	 * once tokens are transferable, it cannot be paused
-   * @param _transferableTime epoch time for transferableTime
-   */
+	* @dev set transferableTime
+	* transferableTime can only be set earlier, not later
+	* once tokens are transferable, it cannot be paused
+	* @param _transferableTime epoch time for transferableTime
+	*/
 	function setTransferableTime(uint256 _transferableTime)
 		external
 		onlyOwner
@@ -91,14 +91,14 @@ contract LendingBlockToken is StandardToken, BurnableToken, Ownable {
 }
 
 /**
- * @title LendingBlockTokenEvent
- * @dev sale contract that accepts eth and sends LND tokens in return
- * only the owner can change parameters
- * deploys LND token when this contract is deployed
- * 2 separate list of participants, mainly pre sale and main sale
- * multiple rounds are possible for pre sale and main sale
- * within a round, all participants have the same contribution min, max and rate
- */
+* @title LendingBlockTokenEvent
+* @dev sale contract that accepts eth and sends LND tokens in return
+* only the owner can change parameters
+* deploys LND token when this contract is deployed
+* 2 separate list of participants, mainly pre sale and main sale
+* multiple rounds are possible for pre sale and main sale
+* within a round, all participants have the same contribution min, max and rate
+*/
 contract LendingBlockTokenEvent is Ownable {
 	using SafeMath for uint256;
 
@@ -128,27 +128,27 @@ contract LendingBlockTokenEvent is Ownable {
 	event WhitelistMain(address indexed whitelistedAddress, bool whitelistedStatus);
 
 	/**
-	 * @dev all functions can only be called before event has ended
-	 */
+	* @dev all functions can only be called before event has ended
+	*/
 	modifier eventNotEnded() {
 		require(eventEnded == false);
 		_;
 	}
 
 	/**
-   * @dev constructor to initiate values
-   * @param _wallet address that will receive the contributed eth
-   */
+	* @dev constructor to initiate values
+	* @param _wallet address that will receive the contributed eth
+	*/
 	function LendingBlockTokenEvent(address _wallet) public {
 		token = new LendingBlockToken(msg.sender);
 		wallet = _wallet;
 	}
 
 	/**
-   * @dev function to join the pre sale
-	 * associated with variables, functions, events of suffix Pre
-   * @param beneficiary address that will receive the tokens
-   */
+	* @dev function to join the pre sale
+	* associated with variables, functions, events of suffix Pre
+	* @param beneficiary address that will receive the tokens
+	*/
 	function joinPre(address beneficiary)
 		public
 		payable
@@ -173,10 +173,10 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev function to join the main sale
-	 * associated with variables, functions, events of suffix Main
-   * @param beneficiary address that will receive the tokens
-   */
+	* @dev function to join the main sale
+	* associated with variables, functions, events of suffix Main
+	* @param beneficiary address that will receive the tokens
+	*/
 	function joinMain(address beneficiary)
 		public
 		payable
@@ -201,21 +201,21 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev send eth for safekeeping
-   */
+	* @dev send eth for safekeeping
+	*/
 	function forwardFunds() internal {
 		wallet.transfer(msg.value);
 	}
 
 	/**
-   * @dev set the parameters for the contribution round
-	 * associated with variables, functions, events of suffix Pre
-   * @param _startTimePre start time of contribution round
-   * @param _endTimePre end time of contribution round
-	 * @param _minCapPre minimum contribution for this round
-   * @param _maxCapPre maximum contribution for this round
-   * @param _ratePre token exchange rate for this round
-   */
+	* @dev set the parameters for the contribution round
+	* associated with variables, functions, events of suffix Pre
+	* @param _startTimePre start time of contribution round
+	* @param _endTimePre end time of contribution round
+	* @param _minCapPre minimum contribution for this round
+	* @param _maxCapPre maximum contribution for this round
+	* @param _ratePre token exchange rate for this round
+	*/
 	function setPre(
 		uint256 _startTimePre,
 		uint256 _endTimePre,
@@ -238,14 +238,14 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev set the parameters for the contribution round
-	 * associated with variables, functions, events of suffix Main
-	 * @param _startTimeMain start time of contribution round
-   * @param _endTimeMain end time of contribution round
-	 * @param _minCapMain minimum contribution for this round
-   * @param _maxCapMain maximum contribution for this round
-   * @param _rateMain token exchange rate for this round
-   */
+	* @dev set the parameters for the contribution round
+	* associated with variables, functions, events of suffix Main
+	* @param _startTimeMain start time of contribution round
+	* @param _endTimeMain end time of contribution round
+	* @param _minCapMain minimum contribution for this round
+	* @param _maxCapMain maximum contribution for this round
+	* @param _rateMain token exchange rate for this round
+	*/
 	function setMain(
 		uint256 _startTimeMain,
 		uint256 _endTimeMain,
@@ -268,11 +268,11 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev change the whitelist status of an address for pre sale
-	 * associated with variables, functions, events of suffix Pre
-   * @param whitelistedAddress list of addresses for whitelist status change
-   * @param whitelistedStatus set the address whitelist status to true or false
-   */
+	* @dev change the whitelist status of an address for pre sale
+	* associated with variables, functions, events of suffix Pre
+	* @param whitelistedAddress list of addresses for whitelist status change
+	* @param whitelistedStatus set the address whitelist status to true or false
+	*/
 	function setWhitelistedAddressPre(address[] whitelistedAddress, bool whitelistedStatus)
 		external
 		onlyOwner
@@ -285,11 +285,11 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev change the whitelist status of an address for main sale
-	 * associated with variables, functions, events of suffix Main
-	 * @param whitelistedAddress list of addresses for whitelist status change
-   * @param whitelistedStatus set the address whitelist status to true or false
-   */
+	* @dev change the whitelist status of an address for main sale
+	* associated with variables, functions, events of suffix Main
+	* @param whitelistedAddress list of addresses for whitelist status change
+	* @param whitelistedStatus set the address whitelist status to true or false
+	*/
 	function setWhitelistedAddressMain(address[] whitelistedAddress, bool whitelistedStatus)
 		external
 		onlyOwner
@@ -302,10 +302,10 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev end the token generation event and deactivates all functions
-	 * can only be called after end time
-	 * burn all remaining tokens in this contract that are not exchanged
-   */
+	* @dev end the token generation event and deactivates all functions
+	* can only be called after end time
+	* burn all remaining tokens in this contract that are not exchanged
+	*/
 	function endEvent()
 		external
 		onlyOwner
@@ -320,9 +320,9 @@ contract LendingBlockTokenEvent is Ownable {
 	}
 
 	/**
-   * @dev default function to call the right function for exchanging tokens
-	 * main sale should start only after pre sale
-   */
+	* @dev default function to call the right function for exchanging tokens
+	* main sale should start only after pre sale
+	*/
 	function () external payable {
 		if (now <= endTimePre) {//call pre function if before pre sale end time
 			joinPre(msg.sender);
