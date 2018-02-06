@@ -14,15 +14,15 @@
 1.	transferableTime starts at 1/1/2019 and can only be adjusted down but can be adjusted any amount of times
 1.	any ether/token stuck in LND token contract can no longer be retrieved
 1.	dev owns the token generation contract and has access to
-  - setMain
-  - setWhitelistedAddressMain
-  - endEvent
+    - setMain
+    - setWhitelistedAddressMain
+    - endEvent
 1.	setMain changes
-  - start time
-  - end time
-  - minimum contribution
-  - maximum contribution
-  - exchange rate of the token generation
+    - start time
+    - end time
+    - minimum contribution
+    - maximum contribution
+    - exchange rate of the token generation
 1.	setMain can be called at anytime, any amount of times as long as the start time to be set is in the future
 1.	in each round, all users have the same cap and rate
 1.	setWhitelistedAddressMain sets an address status to true or false
@@ -34,11 +34,11 @@
 1.	users can send funds directly to our token generation contract without any data input
 1.	for each valid incoming funds, the funds is directly routed to company wallet and LND are sent in return
 1.	a valid incoming funds must be
-  - sent after start time
-  - sent before end time
-  - more than the minimum contribution
-  - address is whitelisted
-  - total contribution from that user is less than maximum contribution
-  - token generation contract has enough LND
+    - sent after start time
+    - sent before end time
+    - more than the minimum contribution
+    - address is whitelisted
+    - total contribution from that user is less than maximum contribution
+    - token generation contract has enough LND
 1.	any ether/token stuck in token generation contract can no longer be retrieved
 1.	company wallet address for token generation cannot be changed
