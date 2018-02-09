@@ -227,6 +227,7 @@ contract LendingBlockTokenEvent is Ownable {
 		eventNotEnded
 	{
 		require(now > endTimeMain);//can only be called after end time
+		require(endTimeMain > 0);//can only be called after end time has been set
 		uint256 leftTokens = token.balanceOf(this);//find if any tokens are left
 		if (leftTokens > 0) {
 			token.burn(leftTokens);//burn all remaining tokens
