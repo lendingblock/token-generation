@@ -1,5 +1,20 @@
 # LND Token Generation
 
+### Dependencies
+
+ganache v1.1.0-beta.0 https://github.com/trufflesuite/ganache  
+truffle v4.0.4 https://github.com/trufflesuite/truffle
+
+### Testing
+
+1. `truffle compile`
+1. run ganache, using older versions or other versions of testrpc will probably cause the tests to fail due to the way they handle a failed `require()`. In the tests, a failed `require()` should not throw and is checked from the `status` in the transactionReceipt.
+1. `truffle test ./test/checkParameters.js --network dev`
+1. restart ganache as some tests are manipulating time
+1. `truffle test ./test/accessControl.js --network dev`
+1. restart ganache as some tests are manipulating time
+1. `truffle test ./test/eventFlow.js --network dev`
+
 ### Requirements
 
 1.	symbol is LND
