@@ -172,13 +172,13 @@ contract LendingBlockTokenEvent is Ownable {
 		onlyOwner
 		eventNotEnded
 	{
-	  require(now < _startTimeMain);//start time must be in the future
-	  require(_startTimeMain < _endTimeMain);//end time must be later than start time
-	  startTimeMain = _startTimeMain;
-	  endTimeMain = _endTimeMain;
+		require(now < _startTimeMain);//start time must be in the future
+		require(_startTimeMain < _endTimeMain);//end time must be later than start time
+		startTimeMain = _startTimeMain;
+		endTimeMain = _endTimeMain;
 		minCapMain = _minCapMain;
 		maxCapMain = _maxCapMain;
-	  rateMain = _rateMain;
+		rateMain = _rateMain;
 		SetMain(_startTimeMain, _endTimeMain, _minCapMain, _maxCapMain, _rateMain);
 	}
 
