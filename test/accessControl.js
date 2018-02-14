@@ -202,6 +202,16 @@ contract('LendingBlockTokenEvent', (accounts) => {
         1525132800,
         1525737600,
         web3.toBigNumber(10).times('1e18'),
+        web3.toBigNumber(9).times('1e18'),
+        30000, {
+          from: accounts[0]
+        });
+    }).then((result) => {
+      assert.strictEqual(result.receipt.status, '0x00', '_minCapPre <= _maxCapPre');
+      return tokenEvent.setPre(
+        1525132800,
+        1525737600,
+        web3.toBigNumber(10).times('1e18'),
         web3.toBigNumber(100).times('1e18'),
         30000, {
           from: accounts[0]
@@ -266,6 +276,16 @@ contract('LendingBlockTokenEvent', (accounts) => {
         });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', '_startTimeMain < _endTimeMain');
+      return tokenEvent.setMain(
+        1526342400,
+        1526947200,
+        web3.toBigNumber(1.1).times('1e18'),
+        web3.toBigNumber(1).times('1e18'),
+        30000, {
+          from: accounts[0]
+        });
+    }).then((result) => {
+      assert.strictEqual(result.receipt.status, '0x00', '_minCapMain <= _maxCapMain');
       return tokenEvent.setMain(
         1526342400,
         1526947200,
