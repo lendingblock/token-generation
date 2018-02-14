@@ -144,6 +144,7 @@ contract LendingBlockTokenEvent is Ownable {
 	{
 		require(now < _startTimePre);//start time must be in the future
 		require(_startTimePre < _endTimePre);//end time must be later than start time
+		require(_minCapPre <= _maxCapPre);//minimum must be smaller or equal to maximum
 		startTimePre = _startTimePre;
 		endTimePre = _endTimePre;
 		minCapPre = _minCapPre;
@@ -174,6 +175,7 @@ contract LendingBlockTokenEvent is Ownable {
 	{
 		require(now < _startTimeMain);//start time must be in the future
 		require(_startTimeMain < _endTimeMain);//end time must be later than start time
+		require(_minCapMain <= _maxCapMain);//minimum must be smaller or equal to maximum
 		startTimeMain = _startTimeMain;
 		endTimeMain = _endTimeMain;
 		minCapMain = _minCapMain;
