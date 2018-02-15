@@ -3,8 +3,6 @@ let LendingBlockToken = artifacts.require('LendingBlockToken.sol');
 
 let tokenEvent;
 let token;
-let dummyAccount = '0x1234567890123456789012345678901234567890';
-let dummyAccount2 = '0x1234567890123456789012345678901234567891';
 let initialWalletEth;
 
 //account[0] is owner
@@ -28,13 +26,13 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'fallback denied');
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[2],
         value: web3.toBigNumber(1).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'joinPre denied');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(1).times('1e18')
       });
@@ -84,13 +82,13 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'fallback denied');
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[2],
         value: web3.toBigNumber(1).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'now >= startTimePre');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(1).times('1e18')
       });
@@ -103,25 +101,25 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
         id: 1
       });
     }).then((result) => {
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[2],
         value: web3.toBigNumber(0.5).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'msg.value >= minCapPre');
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[4],
         value: web3.toBigNumber(1).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'whitelistedAddressPre[msg.sender] == true');
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[2],
         value: web3.toBigNumber(50.01).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'contributedValue[msg.sender] <= maxCapPre');
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[2],
         value: web3.toBigNumber(1).times('1e18')
       });
@@ -131,10 +129,9 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenPre event');
       assert.strictEqual(result.logs[0].event, 'TokenPre', 'TokenPre event');
       assert.strictEqual(result.logs[0].args.participant, accounts[2], 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[2], 'TokenPre event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(1).times('1e18').toString(), 'TokenPre event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(30000).times('1e18').toString(), 'TokenPre event');
-      return tokenEvent.joinPre(accounts[2], {
+      return tokenEvent.joinPre({
         from: accounts[2],
         value: web3.toBigNumber(49.5).times('1e18')
       });
@@ -142,7 +139,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.receipt.status, '0x00', 'contributedValue[msg.sender] <= maxCapPre');
       return tokenEvent.sendTransaction({
         from: accounts[2],
-        value: web3.toBigNumber(48).times('1e18')
+        value: web3.toBigNumber(49).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x01', 'fallback allowed');
@@ -150,28 +147,11 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenPre event');
       assert.strictEqual(result.logs[0].event, 'TokenPre', 'TokenPre event');
       assert.strictEqual(result.logs[0].args.participant, accounts[2], 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[2], 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(48).times('1e18').toString(), 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(48).times(30000).times('1e18').toString(), 'TokenPre event');
-      return tokenEvent.joinPre(dummyAccount, {
-        from: accounts[2],
-        value: web3.toBigNumber(1).times('1e18')
-      });
-    }).then((result) => {
-      assert.strictEqual(result.receipt.status, '0x01', 'joinPre allowed');
-      assert.strictEqual(result.logs.length, 1, 'TokenPre log');
-      assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenPre event');
-      assert.strictEqual(result.logs[0].event, 'TokenPre', 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.participant, accounts[2], 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.beneficiary, dummyAccount, 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(1).times('1e18').toString(), 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(30000).times('1e18').toString(), 'TokenPre event');
+      assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(49).times('1e18').toString(), 'TokenPre event');
+      assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(49).times(30000).times('1e18').toString(), 'TokenPre event');
       return token.balanceOf.call(accounts[2]);
     }).then((result) => {
-      assert.strictEqual(result.toString(), web3.toBigNumber(49).times(30000).times('1e18').toString(), 'joinPre success');
-      return token.balanceOf.call(dummyAccount);
-    }).then((result) => {
-      assert.strictEqual(result.toString(), web3.toBigNumber(1).times(30000).times('1e18').toString(), 'joinPre success');
+      assert.strictEqual(result.toString(), web3.toBigNumber(50).times(30000).times('1e18').toString(), 'joinPre success');
       return tokenEvent.sendTransaction({
         from: accounts[3],
         value: web3.toBigNumber(20).times('1e18')
@@ -233,7 +213,6 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenPre event');
       assert.strictEqual(result.logs[0].event, 'TokenPre', 'TokenPre event');
       assert.strictEqual(result.logs[0].args.participant, accounts[4], 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[4], 'TokenPre event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(2).times('1e18').toString(), 'TokenPre event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(2).times(25000).times('1e18').toString(), 'TokenPre event');
       return token.balanceOf.call(accounts[4]);
@@ -266,7 +245,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
         });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x01', 'setMain allowed');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(1).times('1e18')
       });
@@ -279,25 +258,25 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
         id: 1
       });
     }).then((result) => {
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(0.05).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'msg.value >= minCapMain');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[4],
         value: web3.toBigNumber(0.3).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'whitelistedAddressMain[msg.sender] == true');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(5.01).times('1e18')
       });
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', 'contributedValue[msg.sender] <= maxCapMain');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(0.3).times('1e18')
       });
@@ -307,10 +286,9 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenMain event');
       assert.strictEqual(result.logs[0].event, 'TokenMain', 'TokenMain event');
       assert.strictEqual(result.logs[0].args.participant, accounts[6], 'TokenMain event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[6], 'TokenMain event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(0.3).times('1e18').toString(), 'TokenMain event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(0.3).times(20000).times('1e18').toString(), 'TokenMain event');
-      return tokenEvent.joinMain(accounts[6], {
+      return tokenEvent.joinMain({
         from: accounts[6],
         value: web3.toBigNumber(4.71).times('1e18')
       });
@@ -326,10 +304,9 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenMain event');
       assert.strictEqual(result.logs[0].event, 'TokenMain', 'TokenMain event');
       assert.strictEqual(result.logs[0].args.participant, accounts[6], 'TokenMain event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[6], 'TokenMain event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(0.7).times('1e18').toString(), 'TokenMain event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(0.7).times(20000).times('1e18').toString(), 'TokenMain event');
-      return tokenEvent.joinMain(dummyAccount2, {
+      return tokenEvent.joinMain({
         from: accounts[7],
         value: web3.toBigNumber(5).times('1e18')
       });
@@ -339,13 +316,12 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenMain event');
       assert.strictEqual(result.logs[0].event, 'TokenMain', 'TokenMain event');
       assert.strictEqual(result.logs[0].args.participant, accounts[7], 'TokenMain event');
-      assert.strictEqual(result.logs[0].args.beneficiary, dummyAccount2, 'TokenMain event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(5).times('1e18').toString(), 'TokenMain event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(5).times(20000).times('1e18').toString(), 'TokenMain event');
       return token.balanceOf.call(accounts[6]);
     }).then((result) => {
       assert.strictEqual(result.toString(), web3.toBigNumber(1).times(20000).times('1e18').toString(), 'joinMain success');
-      return token.balanceOf.call(dummyAccount2);
+      return token.balanceOf.call(accounts[7]);
     }).then((result) => {
       assert.strictEqual(result.toString(), web3.toBigNumber(5).times(20000).times('1e18').toString(), 'joinMain success');
       return tokenEvent.sendTransaction({
@@ -390,7 +366,6 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenMain event');
       assert.strictEqual(result.logs[0].event, 'TokenMain', 'TokenMain event');
       assert.strictEqual(result.logs[0].args.participant, accounts[6], 'TokenMain event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[6], 'TokenMain event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(19).times('1e18').toString(), 'TokenMain event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(19).times(20000).times('1e18').toString(), 'TokenMain event');
       return tokenEvent.sendTransaction({
@@ -410,7 +385,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.toString(), web3.toBigNumber(20).times(20000).times('1e18').toString(), 'joinMain round 2 success');
       return token.balanceOf.call(accounts[7]);
     }).then((result) => {
-      assert.strictEqual(result.toString(), web3.toBigNumber(15).times(20000).times('1e18').toString(), 'joinMain round 2 success');
+      assert.strictEqual(result.toString(), web3.toBigNumber(20).times(20000).times('1e18').toString(), 'joinMain round 2 success');
       return token.balanceOf.call(accounts[8]);
     }).then((result) => {
       assert.strictEqual(result.toString(), web3.toBigNumber(5).times(20000).times('1e18').toString(), 'joinMain round 2 success');
@@ -501,7 +476,6 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenPre event');
       assert.strictEqual(result.logs[0].event, 'TokenPre', 'TokenPre event');
       assert.strictEqual(result.logs[0].args.participant, accounts[2], 'TokenPre event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[2], 'TokenPre event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(50).times('1e18').toString(), 'TokenPre event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(50).times(30000).times('1e18').toString(), 'TokenPre event');
       return tokenEvent.setWhitelistedAddressMain([accounts[6], accounts[7], accounts[8], accounts[9]], true, {
@@ -541,7 +515,6 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
       assert.strictEqual(result.logs[0].address, tokenEvent.address, 'TokenMain event');
       assert.strictEqual(result.logs[0].event, 'TokenMain', 'TokenMain event');
       assert.strictEqual(result.logs[0].args.participant, accounts[6], 'TokenMain event');
-      assert.strictEqual(result.logs[0].args.beneficiary, accounts[6], 'TokenMain event');
       assert.strictEqual(result.logs[0].args.value.toString(), web3.toBigNumber(1).times('1e18').toString(), 'TokenMain event');
       assert.strictEqual(result.logs[0].args.tokens.toString(), web3.toBigNumber(1).times(20000).times('1e18').toString(), 'TokenMain event');
       return web3.currentProvider.send({

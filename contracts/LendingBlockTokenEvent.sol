@@ -35,8 +35,8 @@ contract LendingBlockTokenEvent is Ownable {
 	mapping(address => bool) public whitelistedAddressMain;
 	mapping(address => uint256) public contributedValue;
 
-	event TokenPre(address indexed participant, address indexed beneficiary, uint256 value, uint256 tokens);
-	event TokenMain(address indexed participant, address indexed beneficiary, uint256 value, uint256 tokens);
+	event TokenPre(address indexed participant, uint256 value, uint256 tokens);
+	event TokenMain(address indexed participant, uint256 value, uint256 tokens);
 	event SetPre(uint256 startTimePre, uint256 endTimePre, uint256 minCapPre, uint256 maxCapPre, uint256 ratePre);
 	event SetMain(uint256 startTimeMain, uint256 endTimeMain, uint256 minCapMain, uint256 maxCapMain, uint256 rateMain);
 	event WhitelistPre(address indexed whitelistedAddress, bool whitelistedStatus);
@@ -62,9 +62,8 @@ contract LendingBlockTokenEvent is Ownable {
 	/**
 	* @dev function to join the pre sale
 	* associated with variables, functions, events of suffix Pre
-	* @param beneficiary address that will receive the tokens
 	*/
-	function joinPre(address beneficiary)
+	function joinPre()
 		public
 		payable
 		eventNotEnded
@@ -81,8 +80,8 @@ contract LendingBlockTokenEvent is Ownable {
 		uint256 tokens = weiValue.mul(ratePre);//find amount of tokens
 		weiTotal = weiTotal.add(weiValue);//store total collected eth
 
-		token.transfer(beneficiary, tokens);//send token to beneficiary
-		TokenPre(msg.sender, beneficiary, weiValue, tokens);//record contribution in logs
+		token.transfer(msg.sender, tokens);//send token to participant
+		TokenPre(msg.sender, weiValue, tokens);//record contribution in logs
 
 		forwardFunds();//send eth for safekeeping
 	}
@@ -90,9 +89,8 @@ contract LendingBlockTokenEvent is Ownable {
 	/**
 	* @dev function to join the main sale
 	* associated with variables, functions, events of suffix Main
-	* @param beneficiary address that will receive the tokens
 	*/
-	function joinMain(address beneficiary)
+	function joinMain()
 		public
 		payable
 		eventNotEnded
@@ -109,8 +107,8 @@ contract LendingBlockTokenEvent is Ownable {
 		uint256 tokens = weiValue.mul(rateMain);//find amount of tokens
 		weiTotal = weiTotal.add(weiValue);//store total collected eth
 
-		token.transfer(beneficiary, tokens);//send token to beneficiary
-		TokenMain(msg.sender, beneficiary, weiValue, tokens);//record contribution in logs
+		token.transfer(msg.sender, tokens);//send token to participant
+		TokenMain(msg.sender, weiValue, tokens);//record contribution in logs
 
 		forwardFunds();//send eth for safekeeping
 	}
@@ -243,9 +241,9 @@ contract LendingBlockTokenEvent is Ownable {
 	*/
 	function () external payable {
 		if (now <= endTimePre) {//call pre function if before pre sale end time
-			joinPre(msg.sender);
+			joinPre();
 		} else if (now <= endTimeMain) {//call main function if before main sale end time
-			joinMain(msg.sender);
+			joinMain();
 		} else {
 			require(false);
 		}
