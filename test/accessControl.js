@@ -287,6 +287,16 @@ contract('LendingBlockTokenEvent', (accounts) => {
     }).then((result) => {
       assert.strictEqual(result.receipt.status, '0x00', '_minCapMain <= _maxCapMain');
       return tokenEvent.setMain(
+        1525737500,
+        1526947200,
+        web3.toBigNumber(0.1).times('1e18'),
+        web3.toBigNumber(10).times('1e18'),
+        30000, {
+          from: accounts[0]
+        });
+    }).then((result) => {
+      assert.strictEqual(result.receipt.status, '0x00', '_startTimeMain > endTimePre');
+      return tokenEvent.setMain(
         1526342400,
         1526947200,
         web3.toBigNumber(0.1).times('1e18'),
