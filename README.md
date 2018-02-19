@@ -2,18 +2,20 @@
 
 ### Dependencies
 
-ganache v1.1.0-beta.0 https://github.com/trufflesuite/ganache  
-truffle v4.0.6 https://github.com/trufflesuite/truffle
+`truffle v4.0.6` https://github.com/trufflesuite/truffle
 
 ### Testing
 
 1. `truffle compile`
-1. run ganache, using older versions or other versions of testrpc and truffle might cause the tests to fail due to the way they handle a failed `require()`
-1. `truffle test ./test/checkParameters.js --network dev`
-1. restart ganache as some tests are manipulating time
-1. `truffle test ./test/accessControl.js --network dev`
-1. restart ganache as some tests are manipulating time
-1. `truffle test ./test/eventFlow.js --network dev`
+1. `truffle test` if using truffle's own testrpc
+1. or `truffle test --network dev7545` if testrpc is on port 7545
+1. or `truffle test --network dev8545` if testrpc is on port 8545
+
+### Testing Coverage
+
+1. coverage is 100% using `solidity-coverage v0.4.9` https://github.com/sc-forks/solidity-coverage
+1. report is at `./coverage/index.html`
+1. to generate the report, `npm install --save-dev solidity-coverage` then `./node_modules/.bin/solidity-coverage`
 
 ### Requirements
 

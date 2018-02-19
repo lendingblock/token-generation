@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/LendingBlockTokenEvent.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> LendingBlockTokenEvent.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>60/60</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>46/46</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>64/64</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">65×</span>
+<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">pragma solidity ^0.4.18;
+&nbsp;
+&nbsp;
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import './LendingBlockToken.sol';
+&nbsp;
+/**
+* @title LendingBlockTokenEvent
+* @dev sale contract that accepts eth and sends LND tokens in return
+* only the owner can change parameters
+* deploys LND token when this contract is deployed
+* 2 separate list of participants, mainly pre sale and main sale
+* multiple rounds are possible for pre sale and main sale
+* within a round, all participants have the same contribution min, max and rate
+*/
+contract LendingBlockTokenEvent is Ownable {
+	using SafeMath for uint256;
+&nbsp;
+	LendingBlockToken public token;
+	address public wallet;
+	bool public eventEnded;
+	uint256 public startTimePre;
+	uint256 public startTimeMain;
+	uint256 public endTimePre;
+	uint256 public endTimeMain;
+	uint256 public ratePre;
+	uint256 public rateMain;
+	uint256 public minCapPre;
+	uint256 public minCapMain;
+	uint256 public maxCapPre;
+	uint256 public maxCapMain;
+	uint256 public weiTotal;
+	mapping(address =&gt; bool) public whitelistedAddressPre;
+	mapping(address =&gt; bool) public whitelistedAddressMain;
+	mapping(address =&gt; uint256) public contributedValue;
+&nbsp;
+	event TokenPre(address indexed participant, uint256 value, uint256 tokens);
+	event TokenMain(address indexed participant, uint256 value, uint256 tokens);
+	event SetPre(uint256 startTimePre, uint256 endTimePre, uint256 minCapPre, uint256 maxCapPre, uint256 ratePre);
+	event SetMain(uint256 startTimeMain, uint256 endTimeMain, uint256 minCapMain, uint256 maxCapMain, uint256 rateMain);
+	event WhitelistPre(address indexed whitelistedAddress, bool whitelistedStatus);
+	event WhitelistMain(address indexed whitelistedAddress, bool whitelistedStatus);
+&nbsp;
+	/**
+	* @dev all functions can only be called before event has ended
+	*/
+	modifier eventNotEnded() {
+		require(eventEnded == false);
+		_;
+	}
+&nbsp;
+	/**
+	* @dev constructor to initiate values
+	* @param _wallet address that will receive the contributed eth
+	*/
+	function LendingBlockTokenEvent(address _wallet) public {
+		token = new LendingBlockToken(msg.sender);
+		wallet = _wallet;
+	}
+&nbsp;
+	/**
+	* @dev function to join the pre sale
+	* associated with variables, functions, events of suffix Pre
+	*/
+	function joinPre()
+		public
+		payable
+		eventNotEnded
+	{
+		require(now &gt;= startTimePre);//after start time
+		require(now &lt;= endTimePre);//before end time
+		require(msg.value &gt;= minCapPre);//contribution is at least minimum
+		require(whitelistedAddressPre[msg.sender] == true);//sender is whitelisted
+&nbsp;
+		uint256 weiValue = msg.value;
+		contributedValue[msg.sender] = contributedValue[msg.sender].add(weiValue);//store amount contributed
+		require(contributedValue[msg.sender] &lt;= maxCapPre);//total contribution not above maximum
+&nbsp;
+		uint256 tokens = weiValue.mul(ratePre);//find amount of tokens
+		weiTotal = weiTotal.add(weiValue);//store total collected eth
+&nbsp;
+		token.transfer(msg.sender, tokens);//send token to participant
+		TokenPre(msg.sender, weiValue, tokens);//record contribution in logs
+&nbsp;
+		forwardFunds();//send eth for safekeeping
+	}
+&nbsp;
+	/**
+	* @dev function to join the main sale
+	* associated with variables, functions, events of suffix Main
+	*/
+	function joinMain()
+		public
+		payable
+		eventNotEnded
+	{
+		require(now &gt;= startTimeMain);//after start time
+		require(now &lt;= endTimeMain);//before end time
+		require(msg.value &gt;= minCapMain);//contribution is at least minimum
+		require(whitelistedAddressMain[msg.sender] == true);//sender is whitelisted
+&nbsp;
+		uint256 weiValue = msg.value;
+		contributedValue[msg.sender] = contributedValue[msg.sender].add(weiValue);//store amount contributed
+		require(contributedValue[msg.sender] &lt;= maxCapMain);//total contribution not above maximum
+&nbsp;
+		uint256 tokens = weiValue.mul(rateMain);//find amount of tokens
+		weiTotal = weiTotal.add(weiValue);//store total collected eth
+&nbsp;
+		token.transfer(msg.sender, tokens);//send token to participant
+		TokenMain(msg.sender, weiValue, tokens);//record contribution in logs
+&nbsp;
+		forwardFunds();//send eth for safekeeping
+	}
+&nbsp;
+	/**
+	* @dev send eth for safekeeping
+	*/
+	function forwardFunds() internal {
+		wallet.transfer(msg.value);
+	}
+&nbsp;
+	/**
+	* @dev set the parameters for the contribution round
+	* associated with variables, functions, events of suffix Pre
+	* @param _startTimePre start time of contribution round
+	* @param _endTimePre end time of contribution round
+	* @param _minCapPre minimum contribution for this round
+	* @param _maxCapPre maximum contribution for this round
+	* @param _ratePre token exchange rate for this round
+	*/
+	function setPre(
+		uint256 _startTimePre,
+		uint256 _endTimePre,
+		uint256 _minCapPre,
+		uint256 _maxCapPre,
+		uint256 _ratePre
+	)
+		external
+		onlyOwner
+		eventNotEnded
+	{
+		require(now &lt; _startTimePre);//start time must be in the future
+		require(_startTimePre &lt; _endTimePre);//end time must be later than start time
+		require(_minCapPre &lt;= _maxCapPre);//minimum must be smaller or equal to maximum
+		startTimePre = _startTimePre;
+		endTimePre = _endTimePre;
+		minCapPre = _minCapPre;
+		maxCapPre = _maxCapPre;
+		ratePre = _ratePre;
+		SetPre(_startTimePre, _endTimePre, _minCapPre, _maxCapPre, _ratePre);
+	}
+&nbsp;
+	/**
+	* @dev set the parameters for the contribution round
+	* associated with variables, functions, events of suffix Main
+	* @param _startTimeMain start time of contribution round
+	* @param _endTimeMain end time of contribution round
+	* @param _minCapMain minimum contribution for this round
+	* @param _maxCapMain maximum contribution for this round
+	* @param _rateMain token exchange rate for this round
+	*/
+	function setMain(
+		uint256 _startTimeMain,
+		uint256 _endTimeMain,
+		uint256 _minCapMain,
+		uint256 _maxCapMain,
+		uint256 _rateMain
+	)
+		external
+		onlyOwner
+		eventNotEnded
+	{
+		require(now &lt; _startTimeMain);//start time must be in the future
+		require(_startTimeMain &lt; _endTimeMain);//end time must be later than start time
+		require(_minCapMain &lt;= _maxCapMain);//minimum must be smaller or equal to maximum
+		require(_startTimeMain &gt; endTimePre);//main round should be after pre round
+		startTimeMain = _startTimeMain;
+		endTimeMain = _endTimeMain;
+		minCapMain = _minCapMain;
+		maxCapMain = _maxCapMain;
+		rateMain = _rateMain;
+		SetMain(_startTimeMain, _endTimeMain, _minCapMain, _maxCapMain, _rateMain);
+	}
+&nbsp;
+	/**
+	* @dev change the whitelist status of an address for pre sale
+	* associated with variables, functions, events of suffix Pre
+	* @param whitelistedAddress list of addresses for whitelist status change
+	* @param whitelistedStatus set the address whitelist status to true or false
+	*/
+	function setWhitelistedAddressPre(address[] whitelistedAddress, bool whitelistedStatus)
+		external
+		onlyOwner
+		eventNotEnded
+	{
+		for (uint256 i = 0; i &lt; whitelistedAddress.length; i++) {
+			whitelistedAddressPre[whitelistedAddress[i]] = whitelistedStatus;
+			WhitelistPre(whitelistedAddress[i], whitelistedStatus);
+		}
+	}
+&nbsp;
+	/**
+	* @dev change the whitelist status of an address for main sale
+	* associated with variables, functions, events of suffix Main
+	* @param whitelistedAddress list of addresses for whitelist status change
+	* @param whitelistedStatus set the address whitelist status to true or false
+	*/
+	function setWhitelistedAddressMain(address[] whitelistedAddress, bool whitelistedStatus)
+		external
+		onlyOwner
+		eventNotEnded
+	{
+		for (uint256 i = 0; i &lt; whitelistedAddress.length; i++) {
+			whitelistedAddressMain[whitelistedAddress[i]] = whitelistedStatus;
+			WhitelistMain(whitelistedAddress[i], whitelistedStatus);
+		}
+	}
+&nbsp;
+	/**
+	* @dev end the token generation event and deactivates all functions
+	* can only be called after end time
+	* burn all remaining tokens in this contract that are not exchanged
+	*/
+	function endEvent()
+		external
+		onlyOwner
+		eventNotEnded
+	{
+		require(now &gt; endTimeMain);//can only be called after end time
+		require(endTimeMain &gt; 0);//can only be called after end time has been set
+		uint256 leftTokens = token.balanceOf(this);//find if any tokens are left
+		if (leftTokens &gt; 0) {
+			token.burn(leftTokens);//burn all remaining tokens
+		}
+		eventEnded = true;//deactivates all functions
+	}
+&nbsp;
+	/**
+	* @dev default function to call the right function for exchanging tokens
+	* main sale should start only after pre sale
+	*/
+	function () external payable {
+		if (now &lt;= endTimePre) {//call pre function if before pre sale end time
+			joinPre();
+		} else if (now &lt;= endTimeMain) {//call main function if before main sale end time
+			joinMain();
+		} else {
+			revert();
+		}
+	}
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 19 2018 16:31:41 GMT+0800 (+08)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
