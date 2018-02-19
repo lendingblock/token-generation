@@ -246,7 +246,7 @@ contract LendingBlockTokenEvent is Ownable {
 		} else if (now <= endTimeMain) {//call main function if before main sale end time
 			joinMain();
 		} else {
-			require(false);
+			revert();
 		}
 	}
 

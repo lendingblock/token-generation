@@ -9,7 +9,7 @@ let transferableTime = 1517443200;
 //account[0] is owner
 //account[1] is wallet to collect funds
 
-contract('LendingBlockToken', (accounts) => {
+contract('LendingBlockToken accessControl', (accounts) => {
   it('should deploy the contract and send the initial tokens', () => {
     return LendingBlockTokenEvent.deployed().then((instance) => {
       tokenEvent = instance;
@@ -196,7 +196,7 @@ contract('LendingBlockToken', (accounts) => {
   });
 });
 
-contract('LendingBlockTokenEvent', (accounts) => {
+contract('LendingBlockTokenEvent accessControl', (accounts) => {
   it('should deploy the contract and send the initial tokens', () => {
     return LendingBlockTokenEvent.deployed().then((instance) => {
       tokenEvent = instance;
@@ -513,95 +513,6 @@ contract('LendingBlockTokenEvent', (accounts) => {
       return tokenEvent.whitelistedAddressMain.call(dummyAccount);
     }).then((result) => {
       assert.strictEqual(result, false, 'whitelisted');
-    });
-  });
-  it('tokenEvent should not allow endEvent if not now > endTimeMain', () => {
-    return tokenEvent.endEvent({
-      from: accounts[0]
-    }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'now > endTimeMain');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'now > endTimeMain');
-      return web3.currentProvider.send({
-        jsonrpc: '2.0',
-        method: 'evm_increaseTime',
-        params: [10000000],
-        id: 1
-      });
-    });
-  });
-  it('tokenEvent should not allow non owner to endEvent', () => {
-    return tokenEvent.endEvent({
-      from: accounts[1]
-    }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'endEvent denied');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'endEvent denied');
-    });
-  });
-  it('tokenEvent should allow only owner to endEvent', () => {
-    return tokenEvent.endEvent({
-      from: accounts[0]
-    }).then((result) => {
-      assert.strictEqual(web3.toBigNumber(result.receipt.status).toString(), '1', 'endEvent allowed');
-      return tokenEvent.eventEnded.call();
-    }).then((result) => {
-      assert.strictEqual(result, true, 'eventEnded');
-    });
-  });
-  it('tokenEvent should not allow setPre after eventEnded', () => {
-    return tokenEvent.setPre(
-      1525132800 + 11000000,
-      1525737600 + 11000000,
-      web3.toBigNumber(10).times('1e18'),
-      web3.toBigNumber(100).times('1e18'),
-      30000, {
-        from: accounts[0]
-      }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'setPre denied');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'setPre denied');
-    });
-  });
-  it('tokenEvent should not allow setMain after eventEnded', () => {
-    return tokenEvent.setMain(
-      1526342400 + 11000000,
-      1526947200 + 11000000,
-      web3.toBigNumber(0.1).times('1e18'),
-      web3.toBigNumber(10).times('1e18'),
-      30000, {
-        from: accounts[0]
-      }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'setMain denied');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'setMain denied');
-    });
-  });
-  it('tokenEvent should not allow setWhitelistedAddressPre after eventEnded', () => {
-    return tokenEvent.setWhitelistedAddressPre([accounts[2], dummyAccount], true, {
-      from: accounts[0]
-    }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'setWhitelistedAddressPre denied');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'setWhitelistedAddressPre denied');
-    });
-  });
-  it('tokenEvent should not allow setWhitelistedAddressMain after eventEnded', () => {
-    return tokenEvent.setWhitelistedAddressMain([accounts[2], dummyAccount], true, {
-      from: accounts[0]
-    }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'setWhitelistedAddressMain denied');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'setWhitelistedAddressMain denied');
-    });
-  });
-  it('tokenEvent should not allow endEvent after eventEnded', () => {
-    return tokenEvent.endEvent({
-      from: accounts[0]
-    }).catch((error) => {
-      assert.strictEqual(txFailed(error), true, 'endEvent denied');
-    }).then((result) => {
-      assert.strictEqual(result, undefined, 'endEvent denied');
     });
   });
   it('tokenEvent should not allow non owner to transferOwnership', () => {

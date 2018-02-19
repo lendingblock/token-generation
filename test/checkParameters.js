@@ -7,7 +7,7 @@ let token;
 //account[0] is owner
 //account[1] is wallet to collect funds
 
-contract('LendingBlockTokenEvent', (accounts) => {
+contract('LendingBlockTokenEvent checkParameters', (accounts) => {
   it('should deploy the contract and send the initial tokens', () => {
     return LendingBlockTokenEvent.deployed().then((instance) => {
       tokenEvent = instance;

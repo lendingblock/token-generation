@@ -10,7 +10,7 @@ let initialWalletEth;
 //account[2] to account[5] are pre round
 //account[6] to account[9] are main round
 
-contract('LendingBlockTokenEvent with token burn', (accounts) => {
+contract('LendingBlockTokenEvent eventFlow with token burn', (accounts) => {
   it('should deploy the contract and send the initial tokens', () => {
     return LendingBlockTokenEvent.deployed().then((instance) => {
       tokenEvent = instance;
@@ -63,8 +63,8 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
     }).then((result) => {
       assert.strictEqual(web3.toBigNumber(result.receipt.status).toString(), '1', 'setWhitelistedAddressPre allowed');
       return tokenEvent.setPre(
-        1520262000,
-        1520434800,
+        1522940400,
+        1523113200,
         web3.toBigNumber(1).times('1e18'),
         web3.toBigNumber(50).times('1e18'),
         30000, {
@@ -74,10 +74,10 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(web3.toBigNumber(result.receipt.status).toString(), '1', 'setPre allowed');
       return tokenEvent.startTimePre.call();
     }).then((result) => {
-      assert.strictEqual(result.toString(), '1520262000', 'startTimePre');
+      assert.strictEqual(result.toString(), '1522940400', 'startTimePre');
       return tokenEvent.endTimePre.call();
     }).then((result) => {
-      assert.strictEqual(result.toString(), '1520434800', 'endTimePre');
+      assert.strictEqual(result.toString(), '1523113200', 'endTimePre');
       return tokenEvent.minCapPre.call();
     }).then((result) => {
       assert.strictEqual(result.toString(), web3.toBigNumber(1).times('1e18').toString(), 'minCapPre');
@@ -130,7 +130,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1520262000 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1522940400 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
@@ -217,7 +217,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.toString(), web3.toBigNumber(20).times(30000).times('1e18').toString(), 'joinPre success');
     });
   });
-  it('tokenEvent should not allow joinPre when out of tokens', () => {
+  it('tokenEvent should not allow fallback when out of tokens', () => {
     return tokenEvent.sendTransaction({
       from: accounts[3],
       value: web3.toBigNumber(2).times('1e18')
@@ -232,8 +232,8 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
   });
   it('tokenEvent should allow only owner to setWhitelistedAddressPre, setPre to prepare for pre round 2', () => {
     return tokenEvent.setPre(
-      1520521200,
-      1520607600,
+      1523199600,
+      1523286000,
       web3.toBigNumber(1).times('1e18'),
       web3.toBigNumber(50).times('1e18'),
       25000, {
@@ -255,7 +255,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1520521200 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1523199600 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
@@ -303,8 +303,8 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
     }).then((result) => {
       assert.strictEqual(web3.toBigNumber(result.receipt.status).toString(), '1', 'setWhitelistedAddressMain allowed');
       return tokenEvent.setMain(
-        1521817200,
-        1521900000,
+        1524495600,
+        1524582000,
         web3.toBigNumber(0.1).times('1e18'),
         web3.toBigNumber(5).times('1e18'),
         20000, {
@@ -332,7 +332,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1521817200 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1524495600 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
@@ -436,8 +436,8 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
   });
   it('tokenEvent should allow only owner to setMain to prepare for main round 2', () => {
     return tokenEvent.setMain(
-      1521903600,
-      1521990000,
+      1524582000,
+      1524668400,
       web3.toBigNumber(0.1).times('1e18'),
       web3.toBigNumber(20).times('1e18'),
       20000, {
@@ -447,7 +447,7 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1521903600 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1524582000 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
@@ -534,9 +534,28 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1521990000 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1524668400 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
+    });
+  });
+  it('tokenEvent should not allow fallback after endTimeMain', () => {
+    return tokenEvent.sendTransaction({
+      from: accounts[8],
+      value: web3.toBigNumber(1).times('1e18')
+    }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'fallback denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'fallback denied');
+    });
+  });
+  it('tokenEvent should not allow non owner to endEvent', () => {
+    return tokenEvent.endEvent({
+      from: accounts[1]
+    }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'endEvent denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'endEvent denied');
     });
   });
   it('tokenEvent should allow only owner to endEvent', () => {
@@ -557,9 +576,64 @@ contract('LendingBlockTokenEvent with token burn', (accounts) => {
       assert.strictEqual(result.toString(), web3.toBigNumber('1e9').minus(110000).times('1e18').toString(), 'leftover burn success');
     });
   });
+  it('tokenEvent should not allow setPre after eventEnded', () => {
+    return tokenEvent.setPre(
+      1527260400,
+      1527346800,
+      web3.toBigNumber(10).times('1e18'),
+      web3.toBigNumber(100).times('1e18'),
+      30000, {
+        from: accounts[0]
+      }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'setPre denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'setPre denied');
+    });
+  });
+  it('tokenEvent should not allow setMain after eventEnded', () => {
+    return tokenEvent.setMain(
+      1527433200,
+      1527519600,
+      web3.toBigNumber(0.1).times('1e18'),
+      web3.toBigNumber(10).times('1e18'),
+      30000, {
+        from: accounts[0]
+      }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'setMain denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'setMain denied');
+    });
+  });
+  it('tokenEvent should not allow setWhitelistedAddressPre after eventEnded', () => {
+    return tokenEvent.setWhitelistedAddressPre([accounts[2]], true, {
+      from: accounts[0]
+    }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'setWhitelistedAddressPre denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'setWhitelistedAddressPre denied');
+    });
+  });
+  it('tokenEvent should not allow setWhitelistedAddressMain after eventEnded', () => {
+    return tokenEvent.setWhitelistedAddressMain([accounts[6]], true, {
+      from: accounts[0]
+    }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'setWhitelistedAddressMain denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'setWhitelistedAddressMain denied');
+    });
+  });
+  it('tokenEvent should not allow endEvent after eventEnded', () => {
+    return tokenEvent.endEvent({
+      from: accounts[0]
+    }).catch((error) => {
+      assert.strictEqual(txFailed(error), true, 'endEvent denied');
+    }).then((result) => {
+      assert.strictEqual(result, undefined, 'endEvent denied');
+    });
+  });
 });
 
-contract('LendingBlockTokenEvent with no token burn', (accounts) => {
+contract('LendingBlockTokenEvent eventFlow with no token burn', (accounts) => {
   it('should deploy the contract and send the initial tokens', () => {
     return LendingBlockTokenEvent.deployed().then((instance) => {
       tokenEvent = instance;
@@ -582,8 +656,8 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
     }).then((result) => {
       assert.strictEqual(web3.toBigNumber(result.receipt.status).toString(), '1', 'setWhitelistedAddressPre allowed');
       return tokenEvent.setPre(
-        1552143600,
-        1552230000,
+        1527260400,
+        1527346800,
         web3.toBigNumber(1).times('1e18'),
         web3.toBigNumber(50).times('1e18'),
         30000, {
@@ -604,7 +678,7 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1552143600 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1527260400 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
@@ -629,8 +703,8 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
     }).then((result) => {
       assert.strictEqual(web3.toBigNumber(result.receipt.status).toString(), '1', 'setWhitelistedAddressMain allowed');
       return tokenEvent.setMain(
-        1552402800,
-        1552489200,
+        1527433200,
+        1527519600,
         web3.toBigNumber(0.1).times('1e18'),
         web3.toBigNumber(5).times('1e18'),
         20000, {
@@ -648,7 +722,7 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1552402800 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1527433200 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
@@ -668,7 +742,7 @@ contract('LendingBlockTokenEvent with no token burn', (accounts) => {
       return web3.currentProvider.send({
         jsonrpc: '2.0',
         method: 'evm_increaseTime',
-        params: [parseInt(100 + 1552489200 - web3.eth.getBlock('latest').timestamp)],
+        params: [parseInt(100 + 1527519600 - web3.eth.getBlock('latest').timestamp)],
         id: 1
       });
     });
