@@ -783,7 +783,7 @@ contract('LendingBlockTokenEvent eventFlow with no token burn', (accounts) => {
 });
 
 function txFailed(error) {
-  if ('receipt' in error && 'status' in error.receipt && error.receipt.status === '0x00') {
+  if ('receipt' in error && 'status' in error.receipt && web3.toBigNumber(error.receipt.status).toString() === '0') {
     return true;
   } else if ('message' in error && error.message.includes('VM Exception while processing transaction')) {
     return true;
