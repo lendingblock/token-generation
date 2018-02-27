@@ -2,7 +2,7 @@
 
 ### Dependencies
 
-`truffle v4.0.6` https://github.com/trufflesuite/truffle
+`truffle v4.0.6` https://github.com/trufflesuite/truffle  
 `pragma solidity 0.4.19;`
 
 ### Testing
